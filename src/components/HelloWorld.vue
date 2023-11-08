@@ -64,8 +64,11 @@
       </div>
       <div class="section" id="references">
         <router-view></router-view>
+        <References v-if="showReferences" />
       </div>
-
+      <section class="section" id="references">
+        <References />
+      </section>
       <div>
         <h1>Sidwell</h1>
         <h1>Sidwel</h1>
@@ -87,23 +90,30 @@
 </template>
 
 <script>
+import References from "@/components/References.vue";
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String,
   },
+  components: {
+    References
+  },
+
   data() {
     return {
-      paragraphTitle: 'Me, Myself and I', 
-      paragraphTitle: 'Me, Myself and I 2', 
-      paragraphTitle: 'Me, Myself and I 3 ', 
-      paragraphTitle: 'Me, Myself and I 4', 
-      paragraphTitle: 'Me, Myself and I 5', 
-    };
+      paragraphTitle: 'Me, Myself and I',
+      paragraphTitle: 'Me, Myself and I 2',
+      paragraphTitle: 'Me, Myself and I 3 ',
+      paragraphTitle: 'Me, Myself and I 4',
+      paragraphTitle: 'Me, Myself and I 5',
+      isReferencesModalOpen: true
+    }
   },
   methods: {
     scrollToParagraph(paragraphId, title) {
-      this.paragraphTitle = title; 
+      this.paragraphTitle = title;
       const element = document.getElementById(`paragraphId${paragraphId}`);
       if (element) {
         const container = document.querySelector('.col-11');
@@ -139,7 +149,7 @@ export default {
 .svg-img {
   height: 100vh;
   /* width: 100vw; */
-  background-image: linear-gradient(#000000a6, #000000a6), url(https://i.postimg.cc/SKXT0HfQ/Mac-Book-Pro-16-2.png);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url(https://i.postimg.cc/SKXT0HfQ/Mac-Book-Pro-16-2.png);
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -153,7 +163,7 @@ export default {
   text-align: center;
   margin: auto;
   background-color: #000;
-  /* opacity: 0.5; */
+  opacity: 0.85;
   box-shadow: 0 0 4px rgba(15, 166, 110, 0.5);
   border-radius: 5px;
   position: relative;
@@ -249,6 +259,7 @@ button {
   position: sticky;
   top: 20vh;
 }
+
 .content-button {
   width: 1.5rem;
   margin-bottom: 15px;
@@ -259,24 +270,27 @@ button {
 }
 
 .content-button:nth-child(3) {
-  width: 2rem;
-  height: 2rem;
-  transform: scale(1.1); 
+  width: 1.8rem;
+  height: 1.8rem;
+  transform: scale(1.1);
 }
+
 .content-button:nth-child(1) {
-  width: 0.9rem;
-  height: 0.9rem;
-  transform: scale(1); 
+  width: 0.8rem;
+  height: 0.8rem;
+  transform: scale(1);
 }
+
 .content-button:nth-child(5) {
-  width: 0.9rem;
-  height: 0.9rem;
-  transform: scale(1); 
+  width: 0.8rem;
+  height: 0.8rem;
+  transform: scale(1);
 }
 
 .content-button:hover {
-  transform: scale(1.3); 
+  transform: scale(1.3);
 }
+
 .content {
   overflow-y: scroll;
   overflow-x: hidden;

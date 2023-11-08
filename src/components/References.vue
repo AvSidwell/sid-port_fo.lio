@@ -1,23 +1,19 @@
 <template>
-  <div id="sidebar">
-    <div class="sidebar-content">
-      <div class="sidebar-header">
-        <!-- Your Logo or Branding Here -->
-        <img src="/path-to-your-logo.png" alt="Logo" />
-      </div>
-      <div class="sidebar-menu">
-        <ul>
-          <li><router-link to="/">Home</router-link></li>
-          <li><router-link to="/about">About</router-link></li>
-          <li><router-link to="/services">Services</router-link></li>
-          <li><router-link to="/portfolio">Portfolio</router-link></li>
-          <li><router-link to="/contact">Contact</router-link></li>
-        </ul>
-      </div>
-      <div class="sidebar-button">
-        <button>Contact Us</button>
+  <div class="carousel" @mouseover="stopAutoSlide" @mouseleave="startAutoSlide">
+    <div class="carousel-container" :style="{ transform: `translateX(${-currentIndex * 100}%)` }">
+      <div class="slide" v-for="(reference, index) in references" :key="index" :style="getSlideStyles(index)">
+        <div :class="['reference-item', { 'large': index === currentIndex }]">
+          <h3>{{ reference.title }}</h3>
+          <p>{{ reference.content }}</p>
+        </div>
       </div>
     </div>
+    <button class="carousel-prev" @click="prevSlide">
+      <img src="https://i.postimg.cc/t4sR51JH/Arrow-1.png" alt="">
+    </button>
+    <button class="carousel-next" @click="nextSlide">
+      <img src="https://i.postimg.cc/BnRSwqPP/Arrow-2.png" alt="">
+    </button>
   </div>
 </template>
 
@@ -25,117 +21,105 @@
 export default {
   data() {
     return {
-      view: {
-        topOfPage: true,
-      },
-      activeLink: null,
+      references: [
+      { title: 'Reference 1', content: 'Content for Reference 1' },
+        { title: 'Reference 2', content: 'Content for Reference 2' },
+        { title: 'Reference 3', content: 'Content for Reference 3' },
+        { title: 'Reference 4', content: 'Content for Reference 4' },
+        { title: 'Reference 5', content: 'Content for Reference 5' },
+        { title: 'Reference 6', content: 'Content for Reference 6' },
+        { title: 'Reference 7', content: 'Content for Reference 7' },
+        { title: 'Reference 8', content: 'Content for Reference 8' },
+        { title: 'Reference 9', content: 'Content for Reference 9' },
+        { title: 'Reference 10', content: 'Content for Reference 10' },
+        { title: 'Reference 11', content: 'Content for Reference 11' },
+      ],
+      currentIndex: 0,
+      intervalId: null
     };
   },
-  beforeMount() {
-  window.addEventListener("scroll", this.handleScroll);
-  this.handleScroll(); // Corrected this line
-},
-
-  beforeDestroy() {
-    window.removeEventListener("scroll", this.handleScroll);
-  },
   methods: {
-    handleScroll() {
-      if (window.pageYOffset > 0) {
-        if (this.view.topOfPage) {
-          this.view.topOfPage = false;
-        }
-      } else {
-        if (!this.view.topOfPage) {
-          this.view.topOfPage = true;
-        }
-      }
+    prevSlide() {
+      this.currentIndex = (this.currentIndex - 1 + this.references.length) % this.references.length;
     },
+    nextSlide() {
+      this.currentIndex = (this.currentIndex + 1) % this.references.length;
+    },
+    startAutoSlide() {
+      this.intervalId = setInterval(this.nextSlide, 3000); 
+    },
+    stopAutoSlide() {
+      clearInterval(this.intervalId);
+    },
+    getSlideStyles(index) {
+      return { flex: `0 0 ${index === this.currentIndex ? 50 : 25}%` };
+    }
   },
+  mounted() {
+    this.startAutoSlide();
+  },
+  beforeUnmount() {
+    clearInterval(this.intervalId);
+  }
 };
 </script>
 
 <style scoped>
-* {
-  color: #bfc0c6;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-#navbar {
-  position: fixed;
+.carousel {
+  position: relative;
   width: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
-    url(https://i.postimg.cc/T122XG3f/w123.jpg);
-  background-size: cover; /* Ensure the background image covers the entire element */
-  background-repeat: no-repeat;
-  background-position: center;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: 50%;
+  overflow: hidden;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  z-index: 2;
+  justify-content: center;
 }
 
-#sidebar {
-  width: 250px;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: black;
-  opacity: 1;
+.carousel-container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  transition: transform 0.5s ease;
 }
 
-.sidebar-content {
+.slide {
+  flex: 20%; 
+  text-align: center;
+}
+
+.reference-item {
   padding: 20px;
-  color: #fff;
+  transition: transform 0.3s;
 }
 
-.sidebar-header img {
-  max-width: 100%;
+.reference-item.large {
+  transform: scale(1); 
 }
 
-.sidebar-menu ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.sidebar-menu ul li {
-  margin: 10px 0;
-}
-
-.sidebar-menu ul li a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: 500;
-  font-size: 16px;
-  transition: color 0.3s;
-}
-
-.sidebar-menu ul li a:hover {
-  color: #5bded6;
-}
-
-.sidebar-button button {
-  background: #5bded6;
-  color: #fff;
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s;
+  z-index: 1;
 }
 
-.sidebar-button button:hover {
-  background: #fff;
-  color: #5bded6;
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+.carousel-next {
+  color: #1BF2B5;
+}
+
+.carousel-next:hover {
+  color: #0FA66E;
 }
 </style>

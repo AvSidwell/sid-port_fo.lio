@@ -105,7 +105,7 @@
   #navbar {
     background-color: transparent;
   }
-  
+    
   .nav-item img {
     border-radius: 10%;
   }
