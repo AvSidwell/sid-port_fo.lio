@@ -49,7 +49,7 @@
                     </router-link>
                 </li>
                 <li class="nav-link">
-                        <router-link to="/references" active-class="active">
+                        <router-link to="/ReferencesView" active-class="active">
                             <div class="nav-item" @click="scrollToSection('references')">
                         <img src="https://i.postimg.cc/FH2Q7GzT/testimony-removebg-preview-1.png" alt="">
                         <span class="nav-description">Reference</span>

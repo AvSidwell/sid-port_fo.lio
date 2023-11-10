@@ -65,9 +65,11 @@
       <div class="section" id="references">
         <router-view></router-view>
         <References v-if="showReferences" />
+       <Proj/>
       </div>
       <section class="section" id="references">
-        <References />
+        <!-- <References /> -->
+        <ReferencesView  />
       </section>
       <div>
         <h1>Sidwell</h1>
@@ -90,15 +92,18 @@
 </template>
 
 <script>
-import References from "@/components/References.vue";
+import ReferencesView from "@/views/ReferencesView.vue";
+import Proj from "@/views/Proj.vue";
 
 export default {
   name: 'HelloWorld',
   props: {
     msg: String,
   },
+
   components: {
-    References
+    ReferencesView,
+    Proj
   },
 
   data() {

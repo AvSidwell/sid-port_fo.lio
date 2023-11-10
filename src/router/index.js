@@ -16,8 +16,24 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
+  {
+    path: '/ReferencesView',
+    name: 'ReferencesView',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ReferencesView.vue')
+  },
+  {
+    path: '/Proj',
+    name: 'Proj',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/Proj.vue')
+  },
   { path: '/about', name: 'about', component: about },
-  { path: '/references', name: 'references', component: references },
+  // { path: '/references', name: 'references', component: references },
 ]
 
 const router = createRouter({
